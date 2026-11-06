@@ -1,45 +1,49 @@
+import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import {Card} from './components/Card';
-
+import SENTIERS from './data/trail';
 
 export default function App() {
+  const [count, setCount] = useState(0);
+  const [recherche, setRecherche] = useState('');
+
+  const resultats = SENTIERS.filter((s) =>
+    s.nom.toLowerCase().includes(recherche.toLowerCase()),
+  );
+
   return (
     <View style={styles.container}>
       <Text style={styles.emoji}>🥾</Text>
       <Text style={styles.titre}>TrailMap</Text>
       <Text style={styles.sousTitre}>Trouvez votre prochaine randonnée</Text>
+      <View>
+      <Pressable onPress={() => {
+        setCount(count + 1);
+        console.log('touché !');
+      }}>
+        <Text>Touchez-moi</Text>
+      </Pressable>
+      <Text>Nombre de touches: {count}</Text>
+      </View>
+      <View>
+        <TextInput placeholder="Rechercher un sentier…"
+        value={recherche} onChangeText={setRecherche} />
+      </View>
       <ScrollView>
-        <Card 
-          nom="Cascade du hérisson"
-          difficulte="Facile"
-          distanceKm={7}
-          photo={require('./assets/images/photo1.jpg')}
-        />
-        <Card 
-          nom="Tour du lac de Chalain"
-          difficulte="Facile"
-          distanceKm={3}
-          photo={require('./assets/images/photo2.jpg')}
-        />
-        <Card 
-          nom="Les sapins"
-          difficulte="Difficile"
-          distanceKm={17}
-          photo={require('./assets/images/photo3.jpg')}
-        />
-        <Card 
-          nom="Tour du lac de Chalain"
-          difficulte="Facile"
-          distanceKm={3}
-          photo={require('./assets/images/photo2.jpg')}
-        />
-        <Card 
-          nom="Les sapins"
-          difficulte="Difficile"
-          distanceKm={17}
-          photo={require('./assets/images/photo3.jpg')}
-        />
+        {resultats.map((sentier) => (
+          <Card 
+            key={sentier.id}
+            nom={sentier.nom}
+            difficulte={sentier.difficulte}
+            distanceKm={sentier.distanceKm}
+            photo={sentier.photo}
+          />
+        ))}
+
+        {resultats.length === 0 && (
+          <Text>Aucun sentier trouvé pour « {recherche} »</Text>
+        )}
       </ScrollView>
       <StatusBar style="auto" />
     </View>

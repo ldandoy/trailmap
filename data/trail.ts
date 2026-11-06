@@ -1,0 +1,7 @@
+const SENTIERS = [
+  { id: 1, nom: 'Cascade du Hérisson', difficulte: 'Facile',    distanceKm: 7,  photo: require('../assets/images/photo1.jpg') },
+  { id: 2, nom: 'Crêtes du Jura',      difficulte: 'Difficile', distanceKm: 14, photo: require('../assets/images/photo2.jpg') },
+  { id: 3, nom: 'Lac de Chalain',      difficulte: 'Moyen',     distanceKm: 9,  photo: require('../assets/images/photo3.jpg') },
+]
+
+export default SENTIERS;
