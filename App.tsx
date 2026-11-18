@@ -1,12 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import {Card} from './components/Card';
+import { FlatList, Pressable, Text, TextInput, View } from 'react-native';
+import {Card as TrailCard} from './components/Card';
 import SENTIERS from './data/trail';
+import { stylesApp as styles } from './styles';
+import { getTrails } from './services/trails';
 
 export default function App() {
   const [count, setCount] = useState(0);
   const [recherche, setRecherche] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const trails = await getTrails();
+      console.log('Trails fetched in App:', trails);
+    };
+    
+    fetchData();
+  }, []);
 
   const resultats = SENTIERS.filter((s) =>
     s.nom.toLowerCase().includes(recherche.toLowerCase()),
@@ -30,7 +41,7 @@ export default function App() {
         <TextInput placeholder="Rechercher un sentier…"
         value={recherche} onChangeText={setRecherche} />
       </View>
-      <ScrollView>
+      {/*<ScrollView>
         {resultats.map((sentier) => (
           <Card 
             key={sentier.id}
@@ -44,28 +55,23 @@ export default function App() {
         {resultats.length === 0 && (
           <Text>Aucun sentier trouvé pour « {recherche} »</Text>
         )}
-      </ScrollView>
+      </ScrollView>*/}
+
+      <FlatList
+        data={resultats}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={({ item }) => <TrailCard 
+          nom={item.nom} 
+          difficulte={item.difficulte}
+          distanceKm={item.distanceKm}
+          photo={item.photo}
+        />}
+        ItemSeparatorComponent={() => <View style={styles.separateur} />}
+        ListEmptyComponent={<Text style={styles.vide}>Aucun sentier trouvé</Text>}
+      />
+
       <StatusBar style="auto" />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#135635',       // le vert de TrailMap
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  emoji: { fontSize: 64 },
-  titre: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    color: '#ffffff',
-  },
-  sousTitre: {
-    fontSize: 16,
-    color: '#cfe8d5',
-    marginTop: 8,
-  },
-})

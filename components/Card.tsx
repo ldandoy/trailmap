@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
-import { styles } from '../styles';
+import { stylesCard as styles } from '../styles';
 
 interface cardProps {
   nom: string;
@@ -21,15 +21,16 @@ export const Card = ({ nom, difficulte, distanceKm, photo } : cardProps) => {
         />
       </View>
       <View>
-        <View>
+        <View style={styles.cardContainerContent}>
           <Text style={styles.cardTitle}>{nom}</Text>
+          <Pressable onPress={() => setFavoris(!favoris)}>
+            <Text>{favoris ? '❤️' : '🤍'}</Text>
+          </Pressable>
         </View>
         <View>
-          <Text>{difficulte}</Text><Text>{distanceKm} km</Text>
+          <Text>Difficulté: {difficulte}</Text>
+          <Text>Distance: {distanceKm} km</Text>
         </View>
-        <Pressable onPress={() => setFavoris(!favoris)}>
-          <Text>{favoris ? '❤️' : '🤍'}</Text>
-        </Pressable>
       </View>
     </View>
   )
