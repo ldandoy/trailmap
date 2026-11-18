@@ -5,6 +5,7 @@ import {Card as TrailCard} from './components/Card';
 import { type Trail } from './types/trail';
 import { stylesApp as styles } from './styles';
 import { getTrails } from './services/trails';
+import { API_URL } from './services/config';
 
 export default function App() {
   const [count, setCount] = useState(0);
@@ -66,7 +67,7 @@ export default function App() {
           nom={item.nom} 
           difficulte={item.difficulte}
           distanceKm={item.distanceKm}
-          photo={item.photo}
+          photo={{ uri: `${API_URL}${item.photo}` }}
         />}
         ItemSeparatorComponent={() => <View style={styles.separateur} />}
         ListEmptyComponent={<Text style={styles.vide}>Aucun sentier trouvé</Text>}

@@ -1,12 +1,12 @@
 import {useState} from 'react';
-import { Image, Pressable, Text, View } from 'react-native';
+import { Image, ImageSourcePropType, Pressable, Text, View } from 'react-native';
 import { stylesCard as styles } from '../styles';
 
 interface cardProps {
   nom: string;
   difficulte: string;
   distanceKm: number;
-  photo: any;
+  photo: ImageSourcePropType;
 }
 
 export const Card = ({ nom, difficulte, distanceKm, photo } : cardProps) => {
