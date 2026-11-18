@@ -2,24 +2,26 @@ import { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { FlatList, Pressable, Text, TextInput, View } from 'react-native';
 import {Card as TrailCard} from './components/Card';
-import SENTIERS from './data/trail';
+import { type Trail } from './types/trail';
 import { stylesApp as styles } from './styles';
 import { getTrails } from './services/trails';
 
 export default function App() {
   const [count, setCount] = useState(0);
   const [recherche, setRecherche] = useState('');
+  const [trails, setTrails] = useState<Trail[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const trails = await getTrails();
       // console.log('Trails fetched in App:', trails);
+      setTrails(trails);
     };
     
     fetchData();
   }, []);
 
-  const resultats = SENTIERS.filter((s) =>
+  const resultats = trails.filter((s) =>
     s.nom.toLowerCase().includes(recherche.toLowerCase()),
   );
 

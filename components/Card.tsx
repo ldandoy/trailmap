@@ -11,7 +11,6 @@ interface cardProps {
 
 export const Card = ({ nom, difficulte, distanceKm, photo } : cardProps) => {
   const [favoris, setFavoris] = useState(false);
-
   return (
     <View style={styles.cardContainer}>
       <View style={styles.cardContainerImage}>
