@@ -13,7 +13,7 @@ export default function App() {
   useEffect(() => {
     const fetchData = async () => {
       const trails = await getTrails();
-      console.log('Trails fetched in App:', trails);
+      // console.log('Trails fetched in App:', trails);
     };
     
     fetchData();
